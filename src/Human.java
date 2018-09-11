@@ -8,29 +8,29 @@ public class Human {
         }
     }
 
-    private int heightInInches;
-    private int weightInPounds;
+    private double heightInInches;
+    private double weightInPounds;
     private Gender gender;
 
-    public Human(int heightInInches, int weightInPounds, Gender gender) {
+    public Human(double heightInInches, double weightInPounds, Gender gender) {
         this.heightInInches = heightInInches;
         this.weightInPounds = weightInPounds;
         this.gender = gender;
     }
 
-    public int getHeightInInches() {
+    public double getHeightInInches() {
         return heightInInches;
     }
 
-    public void setHeightInInches(int heightInInches) {
+    public void setHeightInInches(double heightInInches) {
         this.heightInInches = heightInInches;
     }
 
-    public int getWeightInPounds() {
+    public double getWeightInPounds() {
         return weightInPounds;
     }
 
-    public void setWeightInPounds(int weightInPounds) {
+    public void setWeightInPounds(double weightInPounds) {
         this.weightInPounds = weightInPounds;
     }
 
