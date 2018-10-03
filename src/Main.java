@@ -11,7 +11,7 @@ public class Main {
         ArrayList<Human> allHumans = new ArrayList<Human>();
         ArrayList<Human> males = new ArrayList<Human>();
         ArrayList<Human> females = new ArrayList<Human>();
-        double learningConstant = 0.00000005;
+        double learningConstant = 0.3;
         double firstWeight = 5.0/3.0;
         double secondWeight = -1.0;
         double bias = 38.33;
@@ -53,12 +53,13 @@ public class Main {
 
         System.out.println(String.format("Initial Weights: %s %s %s", firstWeight, secondWeight, bias));
 
-        for(int i = 0; i < 1000; i++){
+        for(int i = 0; i < stoppingPoint; i++){
             for(int j = 0; j < 3000; j++){
                 Human human = allHumans.get(j);
 
                 human.setExpectedGender(firstWeight, secondWeight, bias);
 
+                System.out.printf("Expected Gender: %s, Actual Gender: %s\n", human.getExpectedGender(), human.getGender());
                 if(human.getExpectedGender() != human.getGender()) {
                     double weightShift = learningConstant * (human.desiredGender - human.actualGender);
                     firstWeight += (weightShift * human.getHeightInInches());

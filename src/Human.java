@@ -55,8 +55,8 @@ public class Human {
     public Gender getExpectedGender() { return expectedGender; }
 
     public void setExpectedGender(double firstWeight, double secondWeight, double bias){
-       double y = firstWeight*heightInInches + bias;
-        if(weightInPounds*secondWeight >= y*secondWeight){
+       double y = firstWeight*heightInInches + secondWeight*weightInPounds + bias;
+        if(y >= 0){
             expectedGender = Gender.MALE;
             actualGender = 1.0;
         }
