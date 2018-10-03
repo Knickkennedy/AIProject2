@@ -64,6 +64,7 @@ public class Human {
             expectedGender = Gender.FEMALE;
             actualGender = 0.0;
         }
+        //System.out.printf("Actual Gender: %s Predicted Gender: %s Height: %f Weight: %f Value of Y: %f\n", gender, expectedGender, heightInInches, weightInPounds, y);
     }
 
     public double net(double firstWeight, double secondWeight, double bias){

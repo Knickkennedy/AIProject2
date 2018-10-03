@@ -8,11 +8,10 @@ import java.util.Random;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        ArrayList<Human> allHumans = new ArrayList<Human>();
         ArrayList<Human> males = new ArrayList<Human>();
         ArrayList<Human> females = new ArrayList<Human>();
-        double learningConstant = 0.3;
-        double firstWeight = 0.05/0.4;
+        double learningConstant = 0.5;
+        double firstWeight = 0.125;
         double secondWeight = -1.0;
         double bias = 0.3;
         int stoppingPoint = 1000;
@@ -23,8 +22,6 @@ public class Main {
 
         double minWeight = 97.829;
         double maxWeight = 218.003;
-
-        ArrayList<Human> correct = new ArrayList<Human>();
 
         Random random = new Random(75); // You can feed a seed here
 
@@ -45,7 +42,6 @@ public class Main {
             }
             Human male = new Human(maleHeight, maleWeight, Human.Gender.MALE, firstWeight, secondWeight, bias);
             males.add(male);
-            allHumans.add(male);
         }
 
         for (int j = 0; j < 2000; j++) {
@@ -65,20 +61,19 @@ public class Main {
 
             Human female = new Human(femaleHeight, femaleWeight, Human.Gender.FEMALE, firstWeight, secondWeight, bias);
             females.add(female);
-            allHumans.add(female);
-
         }
 
         System.out.println(String.format("Initial Weights: %s %s %s", firstWeight, secondWeight, bias));
 
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 100; j++){
-                Human human = allHumans.get(j);
+        /*for(int i = 0; i < stoppingPoint; i++){
+            for(int j = 0; j < 250; j++){
+                Human human = females.get(j);
+                Human second = males.get(j);
 
 				double net = human.net(firstWeight, secondWeight, bias);
 				double output;
 
-				if(net >= 1){
+				if(net > 0){
 					output = 1.0;
 				}
 				else{
@@ -89,8 +84,116 @@ public class Main {
                 firstWeight += (weightShift * human.getHeightInInches());
                 secondWeight += (weightShift * human.getWeightInPounds());
                 bias += weightShift;
+
+                *//*System.out.printf("Net: %f First Weight: %f, Second Weight: %f, Bias: %f\n", net, firstWeight, secondWeight, bias);*//*
+
+                net = second.net(firstWeight, secondWeight, bias);
+
+                if(net > 0){
+                    output = 1.0;
+                }
+                else{
+                    output = 0.0;
+                }
+
+                weightShift = learningConstant * (second.desiredGender - output);
+                firstWeight += (weightShift * second.getHeightInInches());
+                secondWeight += (weightShift * second.getWeightInPounds());
+                bias += weightShift;
+
+            }
+        }*/
+
+        /*for(int i = 0; i < stoppingPoint; i++){
+            for(int j = 0; j < 1500; j++){
+                Human human = females.get(j);
+                Human second = males.get(j);
+
+                double net = human.net(firstWeight, secondWeight, bias);
+                double output;
+
+                if(net > 0){
+                    output = 1.0;
+                }
+                else{
+                    output = 0.0;
+                }
+
+                double weightShift = learningConstant * (human.desiredGender - output);
+                firstWeight += (weightShift * human.getHeightInInches());
+                secondWeight += (weightShift * human.getWeightInPounds());
+                bias += weightShift;
+
+                net = second.net(firstWeight, secondWeight, bias);
+
+                if(net > 0){
+                    output = 1.0;
+                }
+                else{
+                    output = 0.0;
+                }
+
+                weightShift = learningConstant * (second.desiredGender - output);
+                firstWeight += (weightShift * second.getHeightInInches());
+                secondWeight += (weightShift * second.getWeightInPounds());
+                bias += weightShift;
+
+            }
+        }*/
+
+        for(int i = 0; i < stoppingPoint; i++){
+            for(int j = 0; j < 250; j++){
+                Human human = females.get(j);
+                Human second = males.get(j);
+
+                double net = human.net(firstWeight, secondWeight, bias);
+                double output;
+
+                output = 1/(1 + Math.exp(-net));
+
+                double weightShift = learningConstant * (human.desiredGender - output);
+                firstWeight += (weightShift * human.getHeightInInches());
+                secondWeight += (weightShift * human.getWeightInPounds());
+                bias += weightShift;
+
+                net = second.net(firstWeight, secondWeight, bias);
+
+                output = 1/(1 + Math.exp(-net));
+
+                weightShift = learningConstant * (second.desiredGender - output);
+                firstWeight += (weightShift * second.getHeightInInches());
+                secondWeight += (weightShift * second.getWeightInPounds());
+                bias += weightShift;
+
             }
         }
+
+        /*for(int i = 0; i < stoppingPoint; i++){
+            for(int j = 0; j < 1500; j++){
+                Human human = females.get(j);
+                Human second = males.get(j);
+
+                double net = human.net(firstWeight, secondWeight, bias);
+                double output;
+
+                output = 1/(1 + Math.exp(-net));
+
+                double weightShift = learningConstant * (human.desiredGender - output);
+                firstWeight += (weightShift * human.getHeightInInches());
+                secondWeight += (weightShift * human.getWeightInPounds());
+                bias += weightShift;
+
+                net = second.net(firstWeight, secondWeight, bias);
+
+                output = 1/(1 + Math.exp(-net));
+
+                weightShift = learningConstant * (second.desiredGender - output);
+                firstWeight += (weightShift * second.getHeightInInches());
+                secondWeight += (weightShift * second.getWeightInPounds());
+                bias += weightShift;
+
+            }
+        }*/
 
         System.out.println(String.format("Final Weights: %.2f %.2f %.2f", firstWeight, secondWeight, bias));
 
