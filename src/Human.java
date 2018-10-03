@@ -66,6 +66,10 @@ public class Human {
         }
     }
 
+    public double net(double firstWeight, double secondWeight, double bias){
+    	return firstWeight*heightInInches + secondWeight*weightInPounds + bias;
+    }
+
     public boolean calculateGenderPredictionForAccuracy(){
         return expectedGender == gender;
     }
