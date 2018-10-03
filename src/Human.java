@@ -11,11 +11,21 @@ public class Human {
     private double heightInInches;
     private double weightInPounds;
     private Gender gender;
+    private Gender expectedGender;
+    public double actualGender;
+    public double desiredGender;
 
-    public Human(double heightInInches, double weightInPounds, Gender gender) {
+    public Human(double heightInInches, double weightInPounds, Gender gender, double firstWeight, double secondWeight, double bias) {
         this.heightInInches = heightInInches;
         this.weightInPounds = weightInPounds;
         this.gender = gender;
+        if(gender == Gender.MALE){
+            desiredGender = 1.0;
+        }
+        else{
+            desiredGender = 0.0;
+        }
+        setExpectedGender(firstWeight, secondWeight, bias);
     }
 
     public double getHeightInInches() {
@@ -42,12 +52,26 @@ public class Human {
         this.gender = gender;
     }
 
+    public Gender getExpectedGender() { return expectedGender; }
+
+    public void setExpectedGender(double firstWeight, double secondWeight, double bias){
+       double y = firstWeight*heightInInches + bias;
+        if(weightInPounds*secondWeight >= y*secondWeight){
+            expectedGender = Gender.MALE;
+            actualGender = 1.0;
+        }
+        else{
+            expectedGender = Gender.FEMALE;
+            actualGender = 0.0;
+        }
+    }
+
+    public boolean calculateGenderPredictionForAccuracy(){
+        return expectedGender == gender;
+    }
+
     @Override
     public String toString() {
-        return "Human{" + "\n" +
-                "heightInInches = " + heightInInches + ",\n" +
-                "weightInPounds = " + weightInPounds + ",\n" +
-                "gender = " + gender + "\n" +
-                "}" + "\n";
+        return String.format("%.2f,%.2f,%d Predicted Gender: %s\n", getHeightInInches(), getWeightInPounds(), getGender() == Gender.MALE ? 1 : 0, expectedGender);
     }
 }
