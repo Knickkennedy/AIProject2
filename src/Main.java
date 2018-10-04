@@ -10,6 +10,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
         ArrayList<Human> males = new ArrayList<Human>();
         ArrayList<Human> females = new ArrayList<Human>();
+
+        double[] heights = new double[4000];
+        double[] weights = new double[4000];
         double learningConstant = 0.5;
         double firstWeight = 0.125;
         double secondWeight = -1.0;
@@ -42,6 +45,8 @@ public class Main {
             }
             Human male = new Human(maleHeight, maleWeight, Human.Gender.MALE, firstWeight, secondWeight, bias);
             males.add(male);
+            heights[i] = male.getHeightInInches();
+            weights[i] = male.getWeightInPounds();
         }
 
         for (int j = 0; j < 2000; j++) {
@@ -61,7 +66,20 @@ public class Main {
 
             Human female = new Human(femaleHeight, femaleWeight, Human.Gender.FEMALE, firstWeight, secondWeight, bias);
             females.add(female);
+
+            heights[j + 2000] = female.getHeightInInches();
+            weights[j + 2000] = female.getWeightInPounds();
         }
+
+        double heightSum = 0.0;
+        double weightSum = 0.0;
+
+        for(int i = 0; i < 4000; i++){
+            heightSum += heights[i];
+            weightSum += weights[i];
+        }
+
+        System.out.printf("Mean height: %f Mean Weight: %f", heightSum/4000, weightSum/4000);
 
         System.out.println(String.format("Initial Weights: %s %s %s", firstWeight, secondWeight, bias));
 
